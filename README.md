@@ -6,7 +6,7 @@ The paper can be found here:
 
     https://arxiv.org
 
-## The project contains three files:
+## Content of the project:
 
 ### RandomGenerator.py
 
