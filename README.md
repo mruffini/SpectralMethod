@@ -1,12 +1,12 @@
 # SpectralMethod
 
-Python implementation of the algorithms described in the paper "A new spectral method for Latent Variable Models", by Matteo Ruffini, Marta Casanellas and Ricard Gavaldà.
+Python implementation of the algorithms described in the paper "A new spectral method for Latent Variable Models", by Matteo Ruffini, Marta Casanellas and Ricard Gavaldà.  
 
 The paper can be found here:
 
     https://arxiv.org
 
-## Contents of the project:
+## Content of the project:
 
 ### RandomGenerator.py
 
