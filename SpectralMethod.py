@@ -1,23 +1,33 @@
-
 #######################################################################
 ## Imports
 #######################################################################
 import numpy as np
 import scipy as sp
+import sktensor as skt
 
 #######################################################################
 ## Learning functions
 #######################################################################
 
+
+def TrueMoment(omega, M):
+    """
+    Recovers the theoretical moment matrix M2 from the conditional expectations
+    and the mixing weights
+    @param omega: the mixing weights
+    @param M: the conditional expectations matrix
+    """
+    M2 = M.dot(np.diag(omega)).dot(M.T)
+
+    return M2
+
 def RetrieveTensorsST(X):
     """
     Returns a the three tensors M1, M2 and M3 to be used
     to learn the Single Topic Model, as in theorem 2.1
-
     @param X: a bag-of-words documents distributed
         as a Single Topic Model, with N rows an n columns;
         at position (i,j) we have the number of times the word j appeared in doc. i,
-
     """
 
     (N, n) = np.shape(X)
@@ -58,16 +68,55 @@ def RetrieveTensorsST(X):
 
     return M1, M2, M3
 
+def RetrieveTensorsST_Zou(X):
+    """
+    Returns a the three tensors M1, M2 and M3 to be used
+    to learn the Single Topic Model, Zou et al 2013
+    @param X: a bag-of-words documents distributed
+        as a Single Topic Model, with N rows an n columns;
+        at position (i,j) we have the number of times the word j appeared in doc. i,
+    """
+
+    (N, n) = np.shape(X)
+
+    W = X - 1
+    W[W < 0] = 0
+    W2 = X - 2
+    W2[W2 < 0] = 0
+    Num = X * W
+
+    Dn = (np.sum(X,1)*(np.sum(X,1)-1)*(np.sum(X,1)-2)).reshape(N,1)
+
+    Cn = (np.sum(X,1)*(np.sum(X,1)-1)).reshape(N,1)
+    Diag = np.mean(Num/Cn, 0)
+
+    M2 = np.transpose(X/Cn).dot(X)/N
+    M2[range(n), range(n)] = Diag
+
+    M3 = np.zeros((n, n, n))
+    for j in range(n):
+        Y = X[:, j].reshape((N, 1))
+        Num = X * Y * W
+        Diag = np.mean(Num/Dn, 0)
+        wM3 = (Y * X/Dn).T.dot(X)/N
+
+        wM3[range(n), range(n)] = Diag
+        rr = np.mean(Y * W[:, j].reshape((N, 1)) * X/Dn, 0)
+        wM3[j, :] = rr
+        wM3[:, j] = rr
+        wM3[j, j] = np.mean(Y * W[:, j].reshape((N, 1)) * W2[:, j].reshape((N, 1))/Dn)
+        M3[j] = wM3
+
+    return M2, M3
+
 def RetrieveTensorsLDA(X,Alpha0):
     """
     Returns a the three tensors M1, M2a and M3a to be used
     to learn the Latent Dirichlet Allocation, as in theorem 3.1
-
     @param X: a bag-of-words documents distributed
         as in Latent Dirichlet Allocation, with N rows an n columns;
         at position (i,j) we have the number of times the word j appeared in doc. i,
-    @params Alpha0: the sum of the hyperparameter Alpha of the Dirichlet distribution.
-
+    @param Alpha0: the sum of the hyperparameter Alpha of the Dirichlet distribution.
     """
 
     N, n = np.shape(X)
@@ -92,8 +141,7 @@ def learn_LVM_Core(M1, M2, M3, k):
         at position (i,j) we have the probability of the word i under topic k.
     the topic probability array omega, with k entries.
         at position (i) we have the probability of drawing topic i.
-
-    @param M1, M2, M3: to be used to learn the Single Topic Model,
+    @params M1, M2, M3: to be used to learn the Single Topic Model,
         from in theorem 2.1 (retrieved from RetrieveTensorsST)
     """
     n, col = M2.shape
@@ -131,9 +179,9 @@ def learn_LVM_Core(M1, M2, M3, k):
     M = M/np.sum(M,0)
     #Step 10
 
-    omega = np.linalg.pinv(M).dot(M1)
+    x = np.linalg.lstsq(M, M1)
+    omega = x[0]
     omega = omega / sum(omega)
-
 
     return M, omega
 
@@ -145,12 +193,9 @@ def learn_LVM_Core_LDA(M1a, M2a, M3a, Alpha0, k):
     the topic-word probability matrix M, with n rows an k columns;
         at position (i,j) we have the probability of the word i under topic k.
     the hyperparameter Alpha of the Dirichlet distribution.
-
-    @param M1a, M2a, M3a: to be used to learn the Single Topic Model,
+    @params M1a, M2a, M3a: to be used to learn the Single Topic Model,
         from in theorem 2.1 (retrieved from RetrieveTensorsST)
-
     @params Alpha0: the sum of the hyperparameter Alpha of the Dirichlet distribution.
-
     """
 
     M, omega = learn_LVM_Core(M1a, M2a, M3a, k)
@@ -160,3 +205,5 @@ def learn_LVM_Core_LDA(M1a, M2a, M3a, Alpha0, k):
     Alpha = np.linalg.pinv(M).dot(M1a) * Alpha0
 
     return M, Alpha
+
+
