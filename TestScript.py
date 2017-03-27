@@ -21,7 +21,7 @@ N = 1000                    #The number of documents
 n = 6                       #The size of the vocabulary
 k = 3                       #The number of topics
 c = 3000                    #The number of words per document
-TestSingleTopic = False     #Set to true to test the single topic model, to false to test LDA
+TestSingleTopic = True      #Set to true to test the single topic model, to false to test LDA
 
 if TestSingleTopic:
     # We generate the random text X, and parameters of the model
@@ -30,7 +30,7 @@ if TestSingleTopic:
     M1,M2,M3 = sm.RetrieveTensorsST(X)
     # We learn the model parameters
     M_tilde,omega_tilde = sm.learn_LVM_Core(M1,M2,M3,k)
-    print(np.linalg.norm(M_tilde.dot(np.diag(omega_tilde)).dot(M_tilde.T) - M.dot(np.diag(omega)).dot(M.T) ))
+    print('Error: %f ' %(np.linalg.norm(M_tilde.dot(np.diag(omega_tilde)).dot(M_tilde.T) - M.dot(np.diag(omega)).dot(M.T) )))
 else:
     # We generate the random text X, and parameters of the model
     X, M, Alpha = rand.generate_sample_LDA(N, n, k, c)
