@@ -6,13 +6,11 @@ Module to generate synthetic data.
 ## Imports
 #######################################################################
 import numpy as np
-
-
 #######################################################################
 ## Data generators
 #######################################################################
 
-def generate_sample_SingleTopic(N, n, k, c):
+def generate_sample_SingleTopic(N, n, k, c=None):
 
     """
     Generates a sample of N synthetic bag-of-words documents distributed
@@ -24,14 +22,10 @@ def generate_sample_SingleTopic(N, n, k, c):
         at position (i,j) we have the probability of the word i under topic k.
     the topic probability array omega, with k entries.
         at position (i) we have the probability of drawing topic i.
-
     @param N: The number of synthetic documents to be generated
-
     @param n: the size of the vocabulary
-
     @param k: the number of hidden topics
-
-    @param c: the number of words appearing in each document
+    @param c: the number of words appearing in each document. If None, documents have random lengths
     """
 
     omega = np.random.uniform(0, 1, k)
@@ -47,10 +41,13 @@ def generate_sample_SingleTopic(N, n, k, c):
     X = np.zeros((N,n))
     #Generates the documents
     for i in range(k):
-        X[x == i, :] = np.random.multinomial(c, M[:, i], int(sum(x == i)))
+        wN = int(sum(x == i))
+        if c is None:
+            X[x == i, :] = np.array([np.random.multinomial(np.random.randint(3,100), M[:, i],1) for j in range(wN)]).reshape(wN,n)
+        else:
+            X[x == i, :] = np.array([np.random.multinomial(c, M[:, i],1) for j in range(wN)]).reshape(wN,n)
 
     return X.astype(float), M, omega
-
 
 def generate_sample_LDA(N, n, k, c, Alpha0=2):
     """
@@ -62,15 +59,10 @@ def generate_sample_LDA(N, n, k, c, Alpha0=2):
     the topic-word probability matrix M, with n rows an k columns;
         at position (i,j) we have the probability of the word i under topic k.
     the hyperparameter Alpha of the Dirichlet distribution.
-
     @param N: The number of synthetic documents to be generated
-
     @param n: the size of the vocabulary
-
     @param k: the number of hidden topics
-
     @param c: the number of words appearing in each document
-
     @param Alpha0: the sum of the hyperparameter of the Dirichlet distribution
     """
 
@@ -99,5 +91,3 @@ def generate_sample_LDA(N, n, k, c, Alpha0=2):
         X[:,i] = np.sum(Xr==i,1)
 
     return X, M, Alpha
-
-
