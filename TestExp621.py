@@ -34,6 +34,7 @@ ErrFW = []
 MinDiff = []
 for N in range(50, 1000,50):
     NSteps.append(N)
+    print "Iteration num: %s" % (N)
 
     print('.............Getting matrices')
     X, M, omega = rg.generate_sample_SingleTopic(N, n, k,4)
@@ -66,7 +67,6 @@ for N in range(50, 1000,50):
     ErrTPM.append(np.linalg.norm(MLtensor.dot(np.diag(POFtensor)).dot(MLtensor.T) - wM2))
 
 
-    print(N)
 
 
 TimeTPM = np.array(TimeTPM)
