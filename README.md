@@ -4,7 +4,7 @@ Python implementation of the algorithms described in the paper "A new spectral m
 
 The paper can be found here:
 
-    https://arxiv.org
+    https://arxiv.org/abs/1612.03409
 
 ## Content of the project:
 
