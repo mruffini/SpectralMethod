@@ -10,16 +10,17 @@ import sktensor as skt
 #######################################################################
 
 
-def TrueMoment(omega, M):
+def RecoverMoments(omega, M):
     """
-    Recovers the theoretical moment matrix M2 from the conditional expectations
+    Recovers the theoretical moment matrix M2 and the tensors M3 from the conditional expectations
     and the mixing weights
     @param omega: the mixing weights
     @param M: the conditional expectations matrix
     """
     M2 = M.dot(np.diag(omega)).dot(M.T)
+    M3 = skt.ktensor([M,M,M], omega).totensor()
 
-    return M2
+    return M2,M3
 
 def RetrieveTensorsST(X):
     """
