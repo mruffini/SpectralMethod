@@ -44,27 +44,27 @@ for N in range(50, 1000,50):
 
     print('.............SVTD is working')
     t0 = time.time()
-    MLWilly, POFw = sm.learn_LVM_Core(M1, M2, M3, k)
+    MLSVTD, POFSVTD = sm.learn_LVM_Core(M1, M2, M3, k)
     TimeSVTD.append(time.time()-t0)
-    ErrSVTD.append(np.linalg.norm(MLWilly.dot(np.diag(POFw)).dot(MLWilly.T) - wM2))
+    ErrSVTD.append(np.linalg.norm(MLSVTD.dot(np.diag(POFSVTD)).dot(MLSVTD.T) - wM2))
     ##
     print('.............Eigen is working')
     t0 = time.time()
-    MLhmm, POFhmm = om.learn_LVM_AnanHMM12(M1, M2, M3, k)
+    MLEigen, POFEigen = om.learn_LVM_AnanHMM12(M1, M2, M3, k)
     TimeEigen.append(time.time() - t0)
-    ErrEigen.append(np.linalg.norm(MLhmm.dot(np.diag(POFhmm)).dot(MLhmm.T) - wM2))
+    ErrEigen.append(np.linalg.norm(MLEigen.dot(np.diag(POFEigen)).dot(MLEigen.T) - wM2))
     ## #
     print('.............SVD is working')
     t0 = time.time()
-    MLLDA, POFLDA = om.learn_LVM_AnanLDA12(M1, M2, M3, k)
+    MLSVD, POFSVD = om.learn_LVM_AnanLDA12(M1, M2, M3, k)
     TimeSVD.append(time.time()-t0)
-    ErrSVD.append(np.linalg.norm(MLLDA.dot(np.diag(POFLDA)).dot(MLLDA.T) - wM2))
+    ErrSVD.append(np.linalg.norm(MLSVD.dot(np.diag(POFSVD)).dot(MLSVD.T) - wM2))
     #
     print('.............TPM is working')
     t0 = time.time()
-    MLtensor, POFtensor = om.learn_LVM_Tensor14(M2, M3, k,20,50)
+    MLTPM, POFTPM = om.learn_LVM_Tensor14(M2, M3, k, 20, 50)
     TimeTPM.append(time.time()-t0)
-    ErrTPM.append(np.linalg.norm(MLtensor.dot(np.diag(POFtensor)).dot(MLtensor.T) - wM2))
+    ErrTPM.append(np.linalg.norm(MLTPM.dot(np.diag(POFTPM)).dot(MLTPM.T) - wM2))
 
 
 
