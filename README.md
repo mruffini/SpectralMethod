@@ -16,6 +16,11 @@ A module that allows the user to generate synthetic texts distributed as a the S
 
 A module that contains the learning algorithms described in the paper; the user given a set of texts, expressed in the form of a term-document matrix, can use these algorithms to learn the latent variable models generating the texts (in the case of the Single topic model and Latent Dirichlet Allocation).
 
+### OtherMethods.py
+
+A module that contains the alternative decomposition algorithms described in the paper.
+
+
 ### TestScript.py
 
 A script to generate synthetic texts using the module "RandomGenerator" and learn the hidden model parameters using the module "SpectralMethod".
