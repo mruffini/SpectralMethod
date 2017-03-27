@@ -19,3 +19,15 @@ A module that contains the learning algorithms described in the paper; the user 
 ### TestScript.py
 
 A script to generate synthetic texts using the module "RandomGenerator" and learn the hidden model parameters using the module "SpectralMethod".
+
+### TestExp61.py
+
+A script to reproduce Experiments in Sections 6.1 of the paper
+
+### TestExp621.py
+
+A script to reproduce Experiments in Sections 6.2.1 of the paper
+
+### TestExp622.py
+
+A script to reproduce Experiments in Sections 6.2.2 of the paper
