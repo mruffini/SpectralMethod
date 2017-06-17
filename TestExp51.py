@@ -40,7 +40,7 @@ for N in range(100,1000,50):
 # plot results
 f, ax = pl.subplots(1, 2)
 ax[0].plot(xax,Err2_zou,label='Zou et al.')
-ax[0].plot(xax,Err2,label='Thm 2.2')
+ax[0].plot(xax,Err2,label='Thm 2.1')
 ax[0].legend()
 ax[0].set_title('Error on M2')
 ax[0].set_xlabel("N")
