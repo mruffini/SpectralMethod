@@ -1,5 +1,5 @@
 """
-Module To replicate experiments in section  6.1
+Module To replicate experiments in section  5.1
 """
 #######################################################################
 ## Imports
@@ -24,7 +24,7 @@ Err2=[]
 xax = []
 for N in range(100,1000,50):
     print "Iteration num: %s" % (N)
-    X, M, omega = generate_sample_SingleTopic(N,n,k)
+    X, M, omega,_ = generate_sample_SingleTopic(N,n,k)
     # Retrieve empirical tensors
     _, M2_prop, M3_prop = RetrieveTensorsST(X)
     M2_zou, M3_zou = RetrieveTensorsST_Zou(X)

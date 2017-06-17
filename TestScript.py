@@ -25,7 +25,7 @@ TestSingleTopic = True      #Set to true to test the single topic model, to fals
 
 if TestSingleTopic:
     # We generate the random text X, and parameters of the model
-    X,M,omega = rand.generate_sample_SingleTopic(N,n,k,c)
+    X,M,omega,_ = rand.generate_sample_SingleTopic(N,n,k,c)
     # We retrieve the tensors we need to learn the model
     M1,M2,M3 = sm.RetrieveTensorsST(X)
     # We learn the model parameters

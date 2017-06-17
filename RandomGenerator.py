@@ -22,6 +22,7 @@ def generate_sample_SingleTopic(N, n, k, c=None):
         at position (i,j) we have the probability of the word i under topic k.
     the topic probability array omega, with k entries.
         at position (i) we have the probability of drawing topic i.
+    the true topic of each text
     @param N: The number of synthetic documents to be generated
     @param n: the size of the vocabulary
     @param k: the number of hidden topics
@@ -47,7 +48,7 @@ def generate_sample_SingleTopic(N, n, k, c=None):
         else:
             X[x == i, :] = np.array([np.random.multinomial(c, M[:, i],1) for j in range(wN)]).reshape(wN,n)
 
-    return X.astype(float), M, omega
+    return X.astype(float), M, omega, x
 
 def generate_sample_LDA(N, n, k, c, Alpha0=2):
     """
