@@ -7,6 +7,7 @@ Module To replicate experiments in section  5.1
 import matplotlib.pyplot as pl
 from SpectralMethod import *
 from RandomGenerator import *
+import seaborn as sns
 #######################################################################
 ## Experiment
 #######################################################################
@@ -41,12 +42,11 @@ for N in range(100,1000,50):
 f, ax = pl.subplots(1, 2)
 ax[0].plot(xax,Err2_zou,label='Zou et al.')
 ax[0].plot(xax,Err2,label='Thm 2.1')
-ax[0].legend()
 ax[0].set_title('Error on M2')
 ax[0].set_xlabel("N")
 ax[0].set_ylabel("Err")
 ax[1].plot(xax,Err3_zou,label='Zou et al.')
 ax[1].plot(xax,Err3,label='Thm 2.1')
-ax[1].legend()
+ax[1].legend(loc='center left', bbox_to_anchor=(1, 0.5))
 ax[1].set_title('Error on M3')
 ax[1].set_xlabel("N")
