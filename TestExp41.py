@@ -1,5 +1,5 @@
 """
-Module To replicate experiments in section  5.1
+Module To replicate experiments in section  4.1
 """
 #######################################################################
 ## Imports
@@ -50,3 +50,5 @@ ax[1].plot(xax,Err3,label='Thm 2.1')
 ax[1].legend(loc='center left', bbox_to_anchor=(1, 0.5))
 ax[1].set_title('Error on M3')
 ax[1].set_xlabel("N")
+
+pl.gcf().subplots_adjust(bottom=0.2)

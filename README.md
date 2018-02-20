@@ -25,11 +25,11 @@ A module that contains the alternative decomposition algorithms described in the
 
 A script to generate synthetic texts using the module "RandomGenerator" and learn the hidden model parameters using the module "SpectralMethod".
 
-### TestExp51.py
+### TestExp41.py
 
-A script to reproduce Experiments in Sections 5.1 of the paper
+A script to reproduce Experiments in Sections 4.1 of the paper
 
-### TestExp52.py
+### TestExp42.py
 
-A script to reproduce Experiments in Sections 5.2 of the paper
+A script to reproduce Experiments in Sections 4.2 of the paper
 

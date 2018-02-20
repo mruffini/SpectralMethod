@@ -75,6 +75,26 @@ def learn_LVM_AnanLDA12(M1, M2, M3, k, Eta = None):
 
     return M, omega
 
+def learn_LVM_CPD(M1,M2, M3, k):
+    """
+    Theorem 4.3 from  "Tensor Decompositions for Learning Latent Variable Models"
+    @param M2,M3: the symmetric moments
+    @param k: the number of latent states
+    @param L,N: number of iterations
+    """
+    P, fit, itr, _ = skt.cp.als(skt.dtensor(M3), k, init = 'random', max_iter = 250)
+    M = np.array(P.U[1])
+
+    M = M/M.sum(0)
+
+    x = np.linalg.lstsq(M, M1)
+    omega = x[0]
+    omega = omega / sum(omega)
+
+
+    return M, omega
+
+
 # Tensor Decompositions for Learning Latent Variable Models
 def learn_LVM_Tensor14(M2, M3, k, L=25, N=20):
     """
@@ -117,6 +137,7 @@ def learn_LVM_Tensor14(M2, M3, k, L=25, N=20):
     omega = omega / sum(omega)
 
     return M, omega
+
 
 def RobustTPM(T,k,L=25, N=20):
     """

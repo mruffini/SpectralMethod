@@ -136,7 +136,7 @@ def RetrieveTensorsLDA(X,Alpha0):
 def learn_LVM_Core(M1, M2, M3, k):
 
     """
-    Implementation of Algorithm 2 to learn the Sinlge topic model from a sample.
+    Implementation of Algorithm 1 to learn the Sinlge topic model from a sample.
     Returns:
     the topic-word probability matrix M, with n rows an k columns;
         at position (i,j) we have the probability of the word i under topic k.
